@@ -1,6 +1,12 @@
 Heroku buildpack: Heroku CLI
 =========================
 
+Fork Info
+---------
+
+This is a modified buildpack that aside of installing heroku CLI, it installs heroku fork plugin and copies `HEROKU_CLI_EMAIL` and `HEROKU_CLI_TOKEN` env vars to `$HOME/.netrc` file.
+
+
 This is a [Heroku buildpack](http://devcenter.heroku.com/articles/buildpacks) that
 allows one to run the Heroku CLI in a dyno alongside application code.
 

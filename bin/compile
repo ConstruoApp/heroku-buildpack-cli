@@ -14,8 +14,12 @@ source /dev/stdin <<< "$(curl -s --retry 3 https://lang-common.s3.amazonaws.com/
 
 BUILD_DIR=$1
 CACHE_DIR=$2
+ENV_DIR=$3
 BUILDPACK_DIR="$(dirname $(dirname $0))"
 HEROKU_CLI_URL="https://cli-assets.heroku.com/heroku-cli/channels/stable/heroku-cli-linux-x64.tar.gz"
+
+TOKEN=$(cat "${ENV_DIR}/HEROKU_CLI_TOKEN")
+EMAIL=$(cat "${ENV_DIR}/HEROKU_CLI_EMAIL")
 
 puts_step "Fetching and vendoring Heroku CLI into slug"
 rm -rf "$BUILD_DIR/heroku-cli"
@@ -34,3 +38,17 @@ cp "$BUILDPACK_DIR/bin/heroku-cli.sh" $BUILD_DIR/.profile.d/
 chmod +x $BUILD_DIR/.profile.d/heroku-cli.sh
 
 puts_step "Heroku CLI installation done"
+
+heroku plugins:install heroku-fork
+
+puts_step "Heroku Fork plugin installation done"
+
+puts_step "Setting up netrc"
+
+echo "machine api.heroku.com" > "$BUILD_DIR/.netrc"
+echo "	login ${EMAIL}" >> "$BUILD_DIR/.netrc"
+echo "	password ${TOKEN}" >> "$BUILD_DIR/.netrc"
+
+echo "machine git.heroku.com" > "$BUILD_DIR/.netrc"
+echo "	login ${EMAIL}" >> "$BUILD_DIR/.netrc"
+echo "	password ${TOKEN}" >> "$BUILD_DIR/.netrc"
