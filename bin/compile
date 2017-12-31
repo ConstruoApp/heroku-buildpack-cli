@@ -39,7 +39,7 @@ chmod +x $BUILD_DIR/.profile.d/heroku-cli.sh
 
 puts_step "Heroku CLI installation done"
 
-heroku plugins:install heroku-fork
+./bin/heroku plugins:install heroku-fork
 
 puts_step "Heroku Fork plugin installation done"
 
