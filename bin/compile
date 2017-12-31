@@ -41,6 +41,8 @@ puts_step "Heroku CLI installation done"
 
 ./bin/heroku plugins:install heroku-fork
 
+./bin/heroku fork
+
 puts_step "Heroku Fork plugin installation done"
 
 puts_step "Setting up netrc"
@@ -52,5 +54,3 @@ echo "	password ${TOKEN}" >> "$BUILD_DIR/.netrc"
 echo "machine git.heroku.com" >> "$BUILD_DIR/.netrc"
 echo "	login ${EMAIL}" >> "$BUILD_DIR/.netrc"
 echo "	password ${TOKEN}" >> "$BUILD_DIR/.netrc"
-
-cat $BUILD_DIR/.netrc
